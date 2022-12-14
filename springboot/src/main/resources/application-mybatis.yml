@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    username: root
+    password: 123456
+    url: jdbc:mysql://localhost:3306/mydb?serverTimezone=GMT&useUnicode=true&characterEncoding=utf-8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+
+mybatis:
+  type-aliases-package: com.lyffin.codedemo.mybatis.pojo
+  mapper-locations: classpath:mybatis/mapper/*.xml
