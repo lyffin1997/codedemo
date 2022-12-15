@@ -1,5 +1,5 @@
 # demo
-**token:** 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 
+**token:** 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  
 
 **maven_address:** https://mvnrepository.com/artifact/com.alibaba/druid  
 
