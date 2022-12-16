@@ -10,6 +10,7 @@
     <modules>
         <module>springcloudapi</module>
         <module>springcloudproviderdept8003</module>
+        <module>srpingcloud-consumer-dept-8004</module>
     </modules>
 
     <!--打包方式-->
