@@ -2,6 +2,7 @@ package com.lyffin.springcloud.controller;
 
 import com.lyffin.springcloud.pojo.Dept;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,7 +18,10 @@ public class DeptConsumerController {
     @Autowired
     private RestTemplate restTemplate;
 
-    private static final String REST_URL_PREFIX = "http://localhost:8003";
+    //这里是不需要eureka直接调用，请求的是provider的地址
+    //private static final String REST_URL_PREFIX = "http://localhost:8003";
+    //这里是使用eureka后调用的注册的微服务名
+    private static final String REST_URL_PREFIX = "http://SPRINGCLOUD-PROVIDER-DEPT";
 
     @GetMapping("/consumer/dept/get/{id}")
     public Dept get(@PathVariable("id") Long id) {

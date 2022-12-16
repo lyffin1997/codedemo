@@ -2,12 +2,13 @@ package com.lyffin.springcloud;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
 
-@EnableEurekaClient
+//页面ui:localhost:7001
+@EnableEurekaServer
 @SpringBootApplication
-public class DeptConsumer_8004 {
+public class EurekaServer_7001 {
     public static void main(String[] args) {
-        SpringApplication.run(DeptConsumer_8004.class, args);
+        SpringApplication.run(EurekaServer_7001.class, args);
     }
 }
