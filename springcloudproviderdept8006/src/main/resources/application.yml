@@ -1,5 +1,5 @@
 server:
-  port: 8003
+  port: 8006
 
 #mybatis配置
 mybatis:
@@ -14,7 +14,7 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/mydb?serverTimezone=GMT&useUnicode=true&characterEncoding=utf-8
+    url: jdbc:mysql://localhost:3306/mydb2?serverTimezone=GMT&useUnicode=true&characterEncoding=utf-8
     username: root
     password: 123456
 
@@ -27,11 +27,11 @@ eureka:
       defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/,http://eureka7003.com:7003/eureka/
     #是否将将自己注册进Eureka,默认为true
     register-with-eureka: true
-    #是否从eureka抓取注册信息，默认为true，单结点无所谓，集群必须设置true才能配合ribbon使用负载均衡
+    #是否从eureka抓取注册信息，默认为true，单结点无所谓，集群必须设置true才 能配合ribbon使用负载均衡
     fetch-registry: true
   instance:
     #修改eureka页面上的默认描述信息
-    instance-id: springcloud-provider-dept8003
+    instance-id: springcloud-provider-dept8006
     #设置当前实例的主机名称，否则会是计算机名
     hostname: localhost
     #客户端向服务端发送心跳的时间间隔，单位为秒，默认30秒
