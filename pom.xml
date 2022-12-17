@@ -16,6 +16,7 @@
         <module>springcloudeureka7003</module>
         <module>springcloudproviderdept8005</module>
         <module>springcloudproviderdept8006</module>
+        <module>springcloud-consumer-dept-feign</module>
     </modules>
 
     <!--打包方式-->

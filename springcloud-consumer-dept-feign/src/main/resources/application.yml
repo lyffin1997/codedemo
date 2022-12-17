@@ -1,0 +1,33 @@
+server:
+  port: 8007
+
+#spring配置
+spring:
+  application:
+    name: springcloud-consumer-dept-feign
+
+#eureka配置
+eureka:
+  client:
+    service-url:
+      #单机: defaultZone: http://localhost:7001/eureka/
+      #集群
+      defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/,http://eureka7003.com:7003/eureka/
+    #是否将将自己注册进Eureka,默认为true
+    register-with-eureka: true
+    #是否从eureka抓取注册信息，默认为true，单结点无所谓，集群必须设置true才能配合ribbon使用负载均衡
+    fetch-registry: true
+  instance:
+    #修改eureka页面上的默认描述信息
+    instance-id: springcloud-consumer-8004
+    #设置当前实例的主机名称，否则会是计算机名
+    hostname: localhost
+    #客户端向服务端发送心跳的时间间隔，单位为秒，默认30秒
+    #lease-renewal-interval-in-seconds: 1
+    #优先使用ip注册,访问显示ip
+    #prefer-ip-address: true
+
+#设置feign客户端建立连接时间
+#feign.client.config.default.connect-timeout=5000
+#设置feign客户端建立连接后，读取到资源的时间
+#feign.client.config.default.read-timeout=5000
