@@ -36,6 +36,8 @@ eureka:
     hostname: localhost
     #客户端向服务端发送心跳的时间间隔，单位为秒，默认30秒
     #lease-renewal-interval-in-seconds: 1
+    #优先使用ip注册,访问显示ip
+    #prefer-ip-address: true
 
 #info配置，配合actuator依赖
 info:
