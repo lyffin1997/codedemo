@@ -19,7 +19,7 @@ eureka:
     fetch-registry: true
   instance:
     #修改eureka页面上的默认描述信息
-    instance-id: springcloud-consumer-8004
+    instance-id: springcloud-consumer-dept-feign-8007
     #设置当前实例的主机名称，否则会是计算机名
     hostname: localhost
     #客户端向服务端发送心跳的时间间隔，单位为秒，默认30秒
@@ -31,3 +31,8 @@ eureka:
 #feign.client.config.default.connect-timeout=5000
 #设置feign客户端建立连接后，读取到资源的时间
 #feign.client.config.default.read-timeout=5000
+
+#开启服务降级，否则feign和hystrix无法共用
+feign:
+  circuitbreaker:
+    enabled: true

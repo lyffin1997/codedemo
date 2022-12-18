@@ -12,7 +12,7 @@ import java.util.List;
 
 @Component
 //value: 微服务名称
-@FeignClient(value = "SPRINGCLOUD-PROVIDER-DEPT")
+@FeignClient(value = "SPRINGCLOUD-PROVIDER-DEPT", fallbackFactory = DeptClientServiceFallbackFactory.class)
 public interface DeptClientService {
 
     //路径要和provider的接口路径一致

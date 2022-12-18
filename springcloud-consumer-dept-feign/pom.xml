@@ -12,6 +12,12 @@
     <artifactId>springcloud-consumer-dept-feign</artifactId>
 
     <dependencies>
+        <!--hystrix依赖-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
+            <version>2.2.10.RELEASE</version>
+        </dependency>
         <!--feign依赖-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
