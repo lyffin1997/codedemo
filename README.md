@@ -1,7 +1,9 @@
 # demo
-**token:** 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  
-
-**maven_address:** https://mvnrepository.com/artifact/com.alibaba/druid  
+## 构建父工程步骤
+    1. 字符编码：preferences->editor->file encoding,全选utf-8，Transparent打勾
+    2. 注解生效激活：preferences->build->compiler->annotation processors->enable annotation process打勾
+    3. java编译版本：preferences->build->compiler->java compiler选版本8
+    4. 文件过滤：preferences->editor->file types，actionscript,*.as,在最下面一栏加上*.idea;*.iml
 
 **redis:** 
    1. 运行镜像：docker run -d --name redis -p 6379:6379 redis:latest redis-server --appendonly yes --requirepass "你的密码"

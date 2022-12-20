@@ -17,7 +17,7 @@ eureka:
     service-url:
       #单机: defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
       #集群
-      defaultZone: http://eureka7002.com:7002/eureka/,http://eureka7003.com:7003/eureka/
+      defaultZone: http://localhost:7002/eureka/,http://localhost:7003/eureka/
   #关闭自我保护机制，即关闭服务后页面不会报红字，后台不会立即注销微服务注册信息
   #server:
     #enable-self-preservation: false
