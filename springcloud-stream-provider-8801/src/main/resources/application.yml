@@ -1,0 +1,63 @@
+server:
+  port: 8801
+
+spring:
+  application:
+    name: springcloud-steam-provider
+  cloud:
+    stream:
+      binders:    #配置绑定的rabbitmq服务器信息
+        defaultRabbit:   #表示定义定名称，用于binding的整合
+          type: rabbit    #中间件类型
+          environment:    #设置rabbitmq相关的环境
+            spring:
+              rabbitmq:
+                host: localhost
+                port: 5672
+                username: guest
+                password: guest
+      bindings:        #服务整合处理
+        myChannel-out-0:        #这是一个通道名称
+          destination: lyffinExchange    #使用的exchange名称，exchange是rabbitmq的功能的一部分，类似于kafka的topic
+          content-type: application/json  #消息类型，文本则是text/plain
+
+eureka:
+  client:
+    service-url:
+      #单机: defaultZone: http://localhost:7001/eureka/
+      #集群
+      defaultZone: http://localhost:7001/eureka/,http://localhost:7002/eureka/,http://localhost:7003/eureka/
+    #是否将将自己注册进Eureka,默认为true
+    register-with-eureka: true
+    #是否从eureka抓取注册信息，默认为true，单结点无所谓，集群必须设置true才能配合ribbon使用负载均衡
+    fetch-registry: true
+  instance:
+    #修改eureka页面上的默认描述信息
+    instance-id: springcloud-stream-provider-8801
+    #设置当前实例的主机名称，否则会是计算机名
+    hostname: localhost
+    #服务端收到最后一次心跳后等待时间上限，单位为秒，默认90秒，超时将删除服务
+    lease-expiration-duration-in-seconds: 5
+    #客户端向服务端发送心跳的时间间隔，单位为秒，默认30秒
+    lease-renewal-interval-in-seconds: 2
+    #优先使用ip注册,访问显示ip
+    #prefer-ip-address: true
+
+#info配置，配合actuator依赖
+info:
+  app.name: lyffin_springcloud
+  company.name: www.lyffin.com
+  build.artifactId: com.lyffin.springcloud-stream-provider
+  build.version: 1.0-SNAPSHOT
+#springboot2.7.5中，actuator的info端点和info变量是默认不启用的，因此需要手动开启
+#开启所有端点，即页面的/info可以访问
+management:
+  endpoints:
+    web:
+      exposure:
+        #bus刷新端点是/bus-refresh
+        include: "*"
+  #开启info开头的变量
+  info:
+    env:
+      enabled: true

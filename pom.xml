@@ -23,6 +23,9 @@
         <module>springcloud-config-center-3344</module>
         <module>springcloud-config-client-3355</module>
         <module>springcloud-config-client-3366</module>
+        <module>springcloud-stream-provider-8801</module>
+        <module>springcloud-stream-consumer-8802</module>
+        <module>springcloud-stream-consumer-8803</module>
     </modules>
 
     <!--打包方式-->
