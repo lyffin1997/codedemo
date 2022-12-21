@@ -21,7 +21,7 @@ spring:
           #断言，参数为属性名称和正则表达式，根据属性值和正则表达式匹配，请求头需要含有X-Request-Id的属性并且值为整数
           #- Header=X-Request-Id, \d+   #curl http://localhost:9527/dept/get/1 -H "X-Request-Id:123" --cookie "username=zzyy"
           #- Host=**.lyffin.com #curl http://localhostL9527/dept/get/1 -H "Host:www.lyffin.com"
-          #- Method=GET
+          #- Method=GET   #curl -X GET http://localhost9527/dept/get/1
           #- Query=username, \d+ #要有参数名username且值为正整数，curl http://localhost:9527/dept/get/1?username=1
           #其他断言用法在官网有案例
           #filters:          #官网有案例

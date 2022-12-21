@@ -15,3 +15,7 @@
    
 **dubbo-admin:** 
    1. 运行镜像：docker run -d --name dubbo-admin -v /Users/lyffin/software/dubbo-admin:/dubbo-admin -p 8888:8080 -e admin.registry.address=zookeeper://192.168.1.246:2181 -e admin.config-center=zookeeper://192.168.1.246:2181 -e admin.metadata-report.address=zookeeper://192.168.1.246:2181 apache/dubbo-admin:latest
+
+**rabbitMQ:** 
+   1. 运行镜像：docker run -d --name rabbitmq -p 5672:5672 -p 15672:15672 docker.io/rabbitmq:management
+   2. 账户/密码：guest/guest
