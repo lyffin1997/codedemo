@@ -39,4 +39,9 @@ public class DeptConsumerController {
         return restTemplate.postForObject(REST_URL_PREFIX + "/dept/add", dept, Boolean .class);
     }
 
+    @GetMapping(value = "/consumer/dept/zipkin")
+    public String deptZipkin() {
+        String result = restTemplate.getForObject(REST_URL_PREFIX + "/dept/zipkin", String.class);
+        return result;
+    }
 }

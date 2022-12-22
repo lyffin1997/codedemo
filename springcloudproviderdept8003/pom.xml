@@ -12,6 +12,12 @@
     <artifactId>springcloud-provider-dept-8003</artifactId>
 
     <dependencies>
+        <!--微服务链路追踪，包含sleuth和zipkin-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-zipkin</artifactId>
+            <version>2.2.8.RELEASE</version>
+        </dependency>
         <!--eureka依赖-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>

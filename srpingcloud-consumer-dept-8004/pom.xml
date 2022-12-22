@@ -12,6 +12,12 @@
     <artifactId>srpingcloud-consumer-dept-8004</artifactId>
 
     <dependencies>
+        <!--微服务链路追踪，包含sleuth和zipkin-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-zipkin</artifactId>
+            <version>2.2.8.RELEASE</version>
+        </dependency>
         <!--eureka依赖，注意3.0以上的版本不再集成ribbon，老的IRule接口改负载均衡算法的方式不能用了-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>

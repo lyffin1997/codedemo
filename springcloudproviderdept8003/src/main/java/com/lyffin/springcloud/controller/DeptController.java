@@ -50,4 +50,9 @@ public class DeptController {
         return this.discoveryClient;
     }
 
+    @GetMapping(value = "/dept/zipkin")
+    public String deptZipkin() {
+        return "zipkin provider 测试成功";
+    }
+
 }

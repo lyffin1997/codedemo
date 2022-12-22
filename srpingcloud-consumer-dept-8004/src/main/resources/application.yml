@@ -5,6 +5,11 @@ server:
 spring:
   application:
     name: springcloud-consumer-dept
+  zipkin:
+    base-url: http://localhost:9411    #zipkin服务端地址
+  sleuth:
+    sampler:
+      probability: 1        #采样值介于0到1之间，1表示全部采集
 
 #eureka配置
 eureka:

@@ -18,4 +18,13 @@
 
 **rabbitMQ:** 
    1. 运行镜像：docker run -d --name rabbitmq -p 5672:5672 -p 15672:15672 docker.io/rabbitmq:management
-   2. 账户/密码：guest/guest
+   2. 账户/密码：guest/guest 
+
+**zipkin:** 
+   1. 运行镜像：docker run -d -p 9411:9411 openzipkin/zipkin 
+   2. 页面：localhost:9411/zipkin
+
+**nacos:** 
+   1. 运行镜像：docker  run --name nacos -p 8848:8848 -p 9848:9848 -p 9849:9849 --privileged=true --restart=always -e JVM_XMS=128m -e JVM_XMX=128m -e MODE=standalone -e PREFER_HOST_MODE=hostname -v /Users/lyffin/nacos/logs:/Users/lyffin/lyffin/docker/nacos/logs -v /Users/lyffin/nacos/conf/application.properties:/Users/lyffin/lyffin/docker/nacos/conf/application.properties -d nacos/nacos-server:latest 
+   2. 自启动：docker update --restart=always nacos 
+   3. 页面：localhost:8848/nacos    nacos/nacos
