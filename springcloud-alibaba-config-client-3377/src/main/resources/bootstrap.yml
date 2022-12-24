@@ -1,0 +1,20 @@
+server:
+  port: 3377
+spring:
+  application:
+    name: springcloud-alibaba-config-client
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+      config:
+        server-addr: localhost:8848
+        file-extension: yml  #指定nacos配置中心yaml格式配置
+        group: TEST_GROUP
+        namespace: 647a4420-4b2d-489f-8b2c-1c6b514681d8
+
+#nacos上配置文件命名规则：微服务名-环境profile-数据格式
+#微服务名可通过spring.cloud.nacos.config.prefix来更改，默认为微服务名
+#环境profile，如dev,test,prod等
+#数据格式，目前只支持properties和yaml,上面file-extension配置等为yaml
+#实例：springcloud-alibaba-config-client-dev.yml
