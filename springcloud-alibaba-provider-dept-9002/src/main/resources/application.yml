@@ -7,7 +7,11 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: localhost:8848
+        #server-addr: localhost:8848
+        #nginx地址
+        server-addr: localhost:80 
+        group: TEST_GROUP
+        namespace: cd6bad40-3558-4178-9593-2fe3655b9acd
 
 #actuator相关
 #info配置，配合actuator依赖

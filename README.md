@@ -25,6 +25,19 @@
    2. 页面：localhost:9411/zipkin
 
 **nacos:** 
-   1. 运行镜像：docker  run --name nacos -p 8848:8848 -p 9848:9848 -p 9849:9849 --privileged=true -e JVM_XMS=128m -e JVM_XMX=128m -e MODE=standalone -e PREFER_HOST_MODE=hostname -v /Users/lyffin/lyffin/docker/nacos/logs:/Users/lyffin/docker/nacos/logs -v /Users/lyffin/lyffin/docker/nacos/conf/application.properties:/Users/lyffin/docker/nacos/conf/application.properties -v /Users/lyffin/lyffin/docker/nacos/data:/Users/lyffin/docker/nacos/data -d nacos/nacos-server:latest  
+   1. 运行镜像：docker run --name nacos -d -p 8848:8848 -p 9848:9848 -p 9849:9849 --privileged=true -e JVM_XMS=256m -e JVM_XMX=256m -e MODE=standalone -e PREFER_HOST_MODE=hostname -e SPRING_DATASOURCE_PLATFORM=mysql -e MYSQL_SERVICE_HOST=192.168.1.246 -e MYSQL_SERVICE_PORT=3306 -e MYSQL_SERVICE_DB_NAME=nacos -e MYSQL_SERVICE_USER=root -e MYSQL_SERVICE_PASSWORD=123456 -v /Users/lyffin/lyffin/docker/nacos/logs:/home/nacos/logs -v /Users/lyffin/lyffin/docker/nacos/conf/custom.properties:/home/nacos/init.d/custom.properties -v /Users/lyffin/lyffin/docker/nacos/data:/home/nacos/data nacos/nacos-server:latest 
    2. 自启动：docker update --restart=always nacos 
-   3. 页面：localhost:8848/nacos    nacos/nacos
+   3. 页面：localhost:8848/nacos    nacos/nacos 
+   4. 集群： 
+         1. 删除子网络：docker network rm my-net 
+         2. 创建子网络：docker network create mynet --subnet 172.19.0.0/16 
+         3. docker run -d -e PREFER_HOST_MODE=ip -e MODE=cluster -e NACOS_SERVERS="172.19.0.42:8848 172.19.0.43:8848" -e SPRING_DATASOURCE_PLATFORM=mysql -e MYSQL_SERVICE_HOST=172.19.0.2 -e MYSQL_SERVICE_PORT=3306 -e MYSQL_SERVICE_DB_NAME=nacos -e MYSQL_SERVICE_USER=root -e MYSQL_SERVICE_PASSWORD=123456 -p 3333:8848 -p 4333:9848 -p 4334:9849 --name nacos01 --net mynet --ip 172.19.0.41 nacos/nacos-server:latest 
+         4. docker run -d -e PREFER_HOST_MODE=ip -e MODE=cluster -e NACOS_SERVERS="172.19.0.41:8848 172.19.0.43:8848" -e SPRING_DATASOURCE_PLATFORM=mysql -e MYSQL_SERVICE_HOST=172.19.0.2 -e MYSQL_SERVICE_PORT=3306 -e MYSQL_SERVICE_DB_NAME=nacos -e MYSQL_SERVICE_USER=root -e MYSQL_SERVICE_PASSWORD=123456 -p 4444:8848 -p 5444:9848 -p 5445:9849 --name nacos02 --net mynet --ip 172.19.0.42 nacos/nacos-server:latest 
+         5. docker run -d -e PREFER_HOST_MODE=ip -e MODE=cluster -e NACOS_SERVERS="172.19.0.41:8848 172.19.0.42:8848" -e SPRING_DATASOURCE_PLATFORM=mysql -e MYSQL_SERVICE_HOST=172.19.0.2 -e MYSQL_SERVICE_PORT=3306 -e MYSQL_SERVICE_DB_NAME=nacos -e MYSQL_SERVICE_USER=root -e MYSQL_SERVICE_PASSWORD=123456 -p 5555:8848 -p 6555:9848 -p 6556:9849 --name nacos03 --net mynet --ip 172.19.0.43 nacos/nacos-server:latest 
+   
+**mysql:** 
+   1. 运行镜像：docker run -itd -p 3306:3306 --name mysql -v /Users/lyffin/lyffin/docker/mysql/conf/my.cnf:/etc/my.cnf -v /Users/lyffin/lyffin/docker/mysql/data:/var/lib/mysql --privileged=true -e MYSQL_ROOT_PASSWORD=123456 -d mysql:8.0.27 
+   2. 配合nacos集群：docker run -it -p 3306:3306 --name mysql --net mynet --ip 172.19.0.2 -v /Users/lyffin/lyffin/docker/mysql/conf/my.cnf:/etc/my.cnf -v /Users/lyffin/lyffin/docker/mysql/data:/var/lib/mysql --privileged=true -e MYSQL_ROOT_PASSWORD=123456 -d mysql:8.0.27 
+
+**nginx:** 
+   1. 运行镜像：docker run --name nginx -p 80:80 -p 1080:1080 -p 1081:1081 -v /Users/lyffin/lyffin/docker/ngix/nginx.conf:/etc/nginx/nginx.conf -v /Users/lyffin/lyffin/docker/ngix/www/:/usr/share/nginx/html/ -v /Users/lyffin/lyffin/docker/ngix/logs/:/var/log/nginx/ -v /Users/lyffin/lyffin/docker/ngix/conf/:/etc/nginx/conf.d --privileged=true -d nginx:latest
