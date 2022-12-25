@@ -40,4 +40,8 @@
    2. 配合nacos集群：docker run -it -p 3306:3306 --name mysql --net mynet --ip 172.19.0.2 -v /Users/lyffin/lyffin/docker/mysql/conf/my.cnf:/etc/my.cnf -v /Users/lyffin/lyffin/docker/mysql/data:/var/lib/mysql --privileged=true -e MYSQL_ROOT_PASSWORD=123456 -d mysql:8.0.27 
 
 **nginx:** 
-   1. 运行镜像：docker run --name nginx -p 80:80 -p 1080:1080 -p 1081:1081 -v /Users/lyffin/lyffin/docker/ngix/nginx.conf:/etc/nginx/nginx.conf -v /Users/lyffin/lyffin/docker/ngix/www/:/usr/share/nginx/html/ -v /Users/lyffin/lyffin/docker/ngix/logs/:/var/log/nginx/ -v /Users/lyffin/lyffin/docker/ngix/conf/:/etc/nginx/conf.d --privileged=true -d nginx:latest
+   1. 运行镜像：docker run --name nginx -p 80:80 -p 1080:1080 -p 1081:1081 -v /Users/lyffin/lyffin/docker/ngix/nginx.conf:/etc/nginx/nginx.conf -v /Users/lyffin/lyffin/docker/ngix/www/:/usr/share/nginx/html/ -v /Users/lyffin/lyffin/docker/ngix/logs/:/var/log/nginx/ -v /Users/lyffin/lyffin/docker/ngix/conf/:/etc/nginx/conf.d --privileged=true -d nginx:latest 
+
+**sentinel:** 
+   1. 运行镜像：docker run --name sentinel -p 8858:8858 -d bladex/sentinel-dashboard:latest 
+   2. 页面：http://localhost:8858/   sentinel/sentinel
