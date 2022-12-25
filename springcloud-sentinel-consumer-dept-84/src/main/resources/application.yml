@@ -27,3 +27,7 @@ management:
 
 service-url:
   nacos-user-service: http://springcloud-sentinel-provider-dept
+#激活sentinel对feign对支持,不加这个openfeign的fallback降级无法使用
+feign:
+  sentinel:
+    enabled: true

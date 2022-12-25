@@ -3,10 +3,12 @@ package com.lyffin.springcloud.controller;
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.lyffin.springcloud.common.Result;
+import com.lyffin.springcloud.feign.DeptService;
 import com.lyffin.springcloud.handler.HandlerFallback;
 import com.lyffin.springcloud.pojo.Dept;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,6 +26,9 @@ public class CircleBreakerController {
     @Autowired
     private RestTemplate restTemplate;
 
+    @Autowired
+    private DeptService deptService;
+
     @GetMapping(value = "/consumer/fallback/{id}")
     @SentinelResource(value = "fallback", fallbackClass = HandlerFallback.class, fallback = "handlerFallback",
     blockHandlerClass = HandlerFallback.class, blockHandler = "blockHandler",
@@ -36,5 +41,10 @@ public class CircleBreakerController {
             throw new NullPointerException("id没有对应数据，空指针异常");
         }
         return result;
+    }
+
+    @GetMapping(value = "/consumer/deptSQL/{id}")
+    public Result<Dept> deptSQL(@PathVariable("id") Long id) {
+        return deptService.deptSQL(id);
     }
 }
