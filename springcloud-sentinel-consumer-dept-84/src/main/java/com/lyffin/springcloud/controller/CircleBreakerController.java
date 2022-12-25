@@ -30,7 +30,7 @@ public class CircleBreakerController {
     private DeptService deptService;
 
     @GetMapping(value = "/consumer/fallback/{id}")
-    @SentinelResource(value = "fallback", fallbackClass = HandlerFallback.class, fallback = "handlerFallback",
+    @SentinelResource(value = "fallback", fallbackClass = HandlerFallback.class, fallback = "handlerFallback",  //fallbackhandler和blockhandler只有资源能生效，路径不行
     blockHandlerClass = HandlerFallback.class, blockHandler = "blockHandler",
     exceptionsToIgnore = {IllegalArgumentException.class})//注意这里只能忽略fallback的异常，忽略降级的BlockException不生效
     public Result<Dept> fallback(@PathVariable("id") Long id) {
