@@ -2,10 +2,14 @@ package com.lyffin.springcloud.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
 
 @Data
 @AllArgsConstructor
-public class Result<T> {
+@NoArgsConstructor
+public class Result<T> implements Serializable {
 
 
     private String code;

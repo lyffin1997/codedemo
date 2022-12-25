@@ -31,6 +31,9 @@
         <module>springcloud-alibaba-consumer-dept-9003</module>
         <module>springcloud-alibaba-config-client-3377</module>
         <module>springcloud-alibaba-sentinel-service-8401</module>
+        <module>springcloud-sentinel-provider-dept-9003</module>
+        <module>springcloud-sentinel-provider-dept-9004</module>
+        <module>springcloud-sentinel-consumer-dept-84</module>
     </modules>
 
     <!--打包方式-->
