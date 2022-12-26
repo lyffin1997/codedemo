@@ -34,6 +34,9 @@
         <module>springcloud-sentinel-provider-dept-9003</module>
         <module>springcloud-sentinel-provider-dept-9004</module>
         <module>springcloud-sentinel-consumer-dept-84</module>
+        <module>springcloud-alibaba-seata-order-2001</module>
+        <module>springcloud-alibaba-seata-storage-2002</module>
+        <module>springcloud-alibaba-seata-account-2003</module>
     </modules>
 
     <!--打包方式-->

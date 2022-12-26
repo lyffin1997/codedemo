@@ -1,0 +1,64 @@
+server:
+  port: 2001
+
+spring:
+  application:
+    name: springcloud-alibaba-seata-order
+  cloud:
+    nacos:
+      discovery:
+        #nacos服务地址
+        server-addr: localhost:8848
+        group: SEATA_GROUP
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/seata_order
+    username: root
+    password: 123456
+    type: io.seata.rm.datasource.DataSourceProxy
+
+seata:
+  tx-service-group: my_test_tx_group
+  enabled: true
+  application-id: ${spring.application.name}
+  #数据源代理模式使用AT模式(可以不用配置，seata默认使用AT模式)
+  data-source-proxy-mode: AT
+  #事务群组（可以每个应用独立取名，也可以使用相同的名字），要与服务端nacos-config.txt中service.vgroup_mapping中存在,并且要保证多个群组情况下后缀名要保持一致-tx_group
+  service:
+    vgroup-mapping:
+      my_test_tx_group: default
+
+  registry:
+    type: nacos
+    nacos:
+      server-addr: ${spring.cloud.nacos.discovery.server-addr}
+      username: nacos
+      password: nacos
+      #seata分组名称
+      group: SEATA_GROUP
+      #nacos命名空间ID
+      namespace: ""
+      #seata服务名
+      application: seata-server
+
+  config:
+    type: nacos
+    nacos:
+      server-addr: ${spring.cloud.nacos.discovery.server-addr}
+      username: nacos
+      password: nacos
+      #seata分组名称
+      group: SEATA_GROUP
+      #nacos命名空间ID
+      namespace: ""
+  enable-auto-data-source-proxy: false
+
+logging:
+  level:
+    io:
+      seata: info
+
+#mybatis配置
+mybatis:
+  mapper-locations: classpath:mybatis/mapper/*.xml
+  type-aliases-package: com.lyffin.springcloud.pojo

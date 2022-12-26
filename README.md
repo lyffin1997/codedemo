@@ -44,4 +44,9 @@
 
 **sentinel:** 
    1. 运行镜像：docker run --name sentinel -p 8858:8858 -d bladex/sentinel-dashboard:latest 
-   2. 页面：http://localhost:8858/   sentinel/sentinel
+   2. 页面：http://localhost:8858/   sentinel/sentinel 
+
+**seata:** 
+   1.运行镜像：docker run -d --name seata-server -p 8091:8091 -e SEATA_IP=192.168.1.246 -v /Users/lyffin/lyffin/docker/seata/seata-server:/seata-server seataio/seata-server:1.5.0 
+   
+          
