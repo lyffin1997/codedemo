@@ -47,6 +47,10 @@
    2. 页面：http://localhost:8858/   sentinel/sentinel 
 
 **seata:** 
-   1.运行镜像：docker run -d --name seata-server -p 8091:8091 -e SEATA_IP=192.168.1.246 -v /Users/lyffin/lyffin/docker/seata/seata-server:/seata-server seataio/seata-server:1.5.0 
-   
-          
+   1. 运行镜像：docker run -d --name seata-server -p 8091:8091 -e SEATA_IP=192.168.1.246 -v /Users/lyffin/lyffin/docker/seata/seata-server:/seata-server seataio/seata-server:1.5.0 
+
+**minio单机无纠删码:** 
+   1. docker run -d -p 9000:9000 -p50000:50000 --name minio -e "MINIO_ROOT_USER=ytp" -e "MINIO_ROOT_PASSWORD=yuntu@byd" -v /Users/lyffin/lyffin/docker/minio/data:/data -v /Users/lyffin/lyffin/docker/minio/config:/root/.minio minio/minio server --console-address ":50000" /data 
+   2. 页面: localhost:50000
+**minio单机纠删码模式:** 
+   1. docker run -d -p 9000:9000 -p50000:50000 --name minio_ec -e "MINIO_ROOT_USER=ytp" -e "MINIO_ROOT_PASSWORD=yuntu@byd" -v /Users/lyffin/lyffin/docker/minio/data1:/data1 -v /Users/lyffin/lyffin/docker/minio/data2:/data2 -v /Users/lyffin/lyffin/docker/minio/data3:/data3 -v /Users/lyffin/lyffin/docker/minio/data4:/data4 -v /Users/lyffin/lyffin/docker/minio/data5:/data5 -v /Users/lyffin/lyffin/docker/minio/data6:/data6 -v /Users/lyffin/lyffin/docker/minio/data7:/data7 -v /Users/lyffin/lyffin/docker/minio/data8:/data8 -v /Users/lyffin/lyffin/docker/minio/config:/root/.minio minio/minio server --console-address ":50000" /data{1...8} 
