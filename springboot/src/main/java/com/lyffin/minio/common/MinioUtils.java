@@ -5,6 +5,7 @@ import io.minio.http.Method;
 import io.minio.messages.Bucket;
 import io.minio.messages.DeleteObject;
 import io.minio.messages.Item;
+import lombok.SneakyThrows;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletOutputStream;
@@ -40,7 +41,7 @@ public class MinioUtils {
      * @return url
      */
     public String getBasisUrl(String bucketName) {
-        return this.minioProperties.getEndPoint() + SEPARATOR + bucketName + SEPARATOR;
+        return this.minioProperties.getEndpoint() + SEPARATOR + bucketName + SEPARATOR;
     }
 
     /**
@@ -480,6 +481,63 @@ public class MinioUtils {
             }
         }
         return bos.toByteArray();
+    }
+
+    /**
+     * 获取对象的元数据
+     *
+     * @param bucketName 存储桶名称
+     * @param objectName 存储桶里的对象名称
+     * @return
+     */
+    @SneakyThrows
+    public StatObjectResponse statObject(String bucketName, String objectName) {
+        boolean flag = bucketExists(bucketName);
+        if (flag) {
+            StatObjectResponse stat =
+                    minioClient.statObject(
+                            StatObjectArgs.builder().bucket(bucketName).object(objectName).build());
+            return stat;
+        }
+        return null;
+    }
+
+    /**
+     * 列出存储桶中的所有对象名称
+     *
+     * @param bucketName 存储桶名称
+     * @return
+     */
+    @SneakyThrows
+    public List<String> listObjectNames(String bucketName) {
+        List<String> listObjectNames = new ArrayList<>();
+        boolean flag = bucketExists(bucketName);
+        if (flag) {
+            Iterable<Result<Item>> myObjects = listObjects(bucketName);
+            for (Result<Item> result : myObjects) {
+                Item item = result.get();
+                listObjectNames.add(item.objectName());
+            }
+        }else{
+            listObjectNames.add("存储桶不存在");
+        }
+        return listObjectNames;
+    }
+
+    /**
+     * 列出存储桶中的所有对象
+     *
+     * @param bucketName 存储桶名称
+     * @return
+     */
+    @SneakyThrows
+    public Iterable<Result<Item>> listObjects(String bucketName) {
+        boolean flag = bucketExists(bucketName);
+        if (flag) {
+            return minioClient.listObjects(
+                    ListObjectsArgs.builder().bucket(bucketName).build());
+        }
+        return null;
     }
 
     /**

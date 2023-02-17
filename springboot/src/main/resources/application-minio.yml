@@ -1,5 +1,5 @@
 minio:
-  endPoint: http://localhost:9000
+  endpoint: http://localhost:9000
   accessKey: ytp
   secretKey: yuntu@byd
   bucketName: test
