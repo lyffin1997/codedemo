@@ -6,7 +6,7 @@
 + **会话**就是保持用户当前登录状态的机制，常见的会话有session方式或token方式
 ### 1.2.1 基于session
 + 传统的session+cookie方式如下图
-  !img.png
+  ![img.png](img.png)
 + 它的基本流程是：
     + 用户登录请求时附带用户信息发送到web服务端
     + web服务端收到信息后进行认证和授权，认证通过后会将用户信息存到session中
@@ -77,8 +77,51 @@ if(主体.hasPermission("查询工资权限标识")) {
   ![img_7.png](img_7.png)
   ![img_8.png](img_8.png)
 ## 2.2 创建工程
-+ 软件环境：
-    + maven: 3.8.4
-    + springboot: 2.7.17
-    + jdk: 1.8
-    + 编码方式：utf-8
++ session认证流程demo过于落后，此工程不再展示  
++ 核心技术点便是springmvc的视图解析器、视图控制器、拦截器，可参考链接：https://lyffin1997.github.io/spring/springboot%E5%A6%82%E4%BD%95%E6%8E%A5%E7%AE%A1springmvc/  
++ **注意：** springmvc的拦截器的执行顺序在过滤器之后  
++ 过滤器和拦截器可以参考这篇文章：https://blog.csdn.net/xp_lx1/article/details/121835173  
+## 2.3 springmvc流程  
++ 这一节参考即可  
+![img_13.png](img_13.png)  
+1. 用户发起请求到前端控制器（Controller）
+2. 前端控制器没有处理业务逻辑的能力，需要找到具体的模型对象处理（Handler），到处理器映射器（HandlerMapping）中查找Handler对象（Model）。
+3. HandlerMapping返回执行链，包含了2部分内容： ① Handler对象、② 拦截器数组
+4. 前端处理器通过处理器适配器包装后执行Handler对象。
+5. 处理业务逻辑。
+6. Handler处理完业务逻辑，返回ModelAndView对象，其中view是视图名称，不是真正的视图对象。
+7. 将ModelAndView返回给前端控制器。
+8. 视图解析器（ViewResolver）返回真正的视图对象（View）。
+9. （此时前端控制器中既有视图又有Model对象数据）前端控制器根据模型数据和视图对象，进行视图渲染。
+10. 返回渲染后的视图（html/json/xml）返回。
+11. 给用户产生响应。
+# 3. springsecurity  
+## 3.1 结构  
++ springsecurity初始化时，会创建一个名为`SpringSecurityFilterChain`的Servlet过滤器，类型是`org.springframework.security.web.FilterChainProxy`,它实现了`javax.servlet.Filter`，外部进球进来时，会先经过此类  
+![img_9.png](img_9.png)  
++ 如上图所示，真正起作用的是`SpringSecurityFilterChain`中的各个filter  
++ filter不直接进行认证和授权，而是交给Authentication(认证管理器)和AccessDecisionManager(决策管理器)  
++ 代码层次如下图：  
+![img_10.png](img_10.png)  
++ **总的来说，springsecurity的功能是由一系列过滤器链相互配合完成，如下图所示：**  
+![img_11.png](img_11.png)  
++ **UsernamePasswordAuthenticationFilter：** 用于处理表单提交的认证(即账号密码认证)，其内部还有认证成功和失败后的处理器`AuthenticationSuccessHandler`和`AuthenticationFailureHandler`  
++ **FilterSecurityInterceptor:** 用于保护web资源，使用`AccessDecisionManager`对当前用户进行授权访问  
++ **ExceptionTranslationFilter：** 能够捕获来自`FilterChain`的所有异常，并处理其中的`AuthenticationException`和`AccessDeniedException`，其他异常会继续抛出  
+## 3.2 认证流程  
+![img_12.png](img_12.png)  
+1. 认证请求先进入UsernamePasswordAuthenticationFilter
+2. UsernamePasswordAuthenticationFilter将账号密码信息存入UsernamePasswordAuthenticationToken中  
+3. ……太白痴了对着图和源码看就行了懒得码字了
+## 3.3 新建工程  
+### 3.3.1 软件环境  
++ springboot: 2.7.17  
++ maven: 3.8.4  
++ jdk: 1.8  
+### .3.3.2 整合步骤  
+1. pom中引入依赖，主要是springboot-web依赖和springsecurity依赖
+2. 创建配置文件SecurityConfig  
+3. 创建获取用户信息接口实现类LoginUserDetailsService(该类也可在SecurityConfig中通过@bean注解注册到容器中)  
+4. 创建用户、角色、权限实体类  
+5. 创建用户接口及实现类UserService、UserServiceImpl
+
