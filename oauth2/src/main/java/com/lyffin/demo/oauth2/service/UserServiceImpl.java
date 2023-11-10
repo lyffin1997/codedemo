@@ -11,7 +11,8 @@ public class UserServiceImpl implements UserService {
         User user = new User();
         user.setId(1);
         user.setUsername("D46033");
-        user.setPassword("$2a$10$Pgs46f8LzTjOvA5Sg6qDkOBbUoAtWQQdHFoEbbmWPak.34/NwJQrW");
+        //1234
+        user.setPassword("$2a$10$Pgs46f8LzTjOvA5Sg6qDkOFR..jRQUNy9ptOyXO2OpNcjrATfGJWG");
         return user;
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -66,6 +67,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http//1、配置权限认证
                 .authorizeRequests()
                 //配置不拦截路由
+                //指定权限：.antMatchers("/test").hasAuthority("p1")
                 .antMatchers("/500").permitAll()
                 .antMatchers("/403").permitAll()
                 .antMatchers("/404").permitAll()
@@ -76,12 +78,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 //2、登录配置表单认证方式
                 .formLogin()
-                .loginPage("/goLogin.do")//自定义登录页面的url
+//                .loginPage("/goLogin.do")//自定义登录页面的url
                 .usernameParameter("username")//设置登录账号参数，与表单参数一致
                 .passwordParameter("password")//设置登录密码参数，与表单参数一致
                 // 告诉Spring Security在发送指定路径时处理提交的凭证，默认情况下，将用户重定向回用户来自的页面。登录表单form中action的地址，也就是处理认证请求的路径，
                 // 只要保持表单中action和HttpSecurity里配置的loginProcessingUrl一致就可以了，也不用自己去处理，它不会将请求传递给Spring MVC和您的控制器，所以我们就不需要自己再去写一个/user/login的控制器接口了
-                .loginProcessingUrl("/login.do")//配置默认登录入口
+                //.loginProcessingUrl("/login.do")//配置默认登录入口
                 .defaultSuccessUrl("/goIndex.do")//登录成功后默认的跳转页面路径
                 .failureUrl("/goLogin.do?error=true")
                 .and()
@@ -92,6 +94,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 //4、session管理
                 .sessionManagement()
+                //.sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
                 .invalidSessionUrl("/login.html") //失效后跳转到登陆页面
                 //单用户登录，如果有一个登录了，同一个用户在其他地方登录将前一个剔除下线
                 //.maximumSessions(1).expiredSessionStrategy(expiredSessionStrategy())

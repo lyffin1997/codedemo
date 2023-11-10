@@ -112,7 +112,9 @@ if(主体.hasPermission("查询工资权限标识")) {
 ![img_12.png](img_12.png)  
 1. 认证请求先进入UsernamePasswordAuthenticationFilter
 2. UsernamePasswordAuthenticationFilter将账号密码信息存入UsernamePasswordAuthenticationToken中  
-3. ……太白痴了对着图和源码看就行了懒得码字了
+3. ……太白痴了对着图和源码看就行了懒得码字了  
+4. 第一次认证完成后，用户信息默认存储在session中，session默认存储在内存中，并且返回给前端一个sessionid(浏览器)，下一次请求发往该域名时，会自带这个sessionid，服务端会自动校验这个sessionid的有效性，可以配置sessionid失效后的策略，如返回登录页。若sessionid校验通过，会继续走认证流程  
+5. 在SecurityContextPersistenceFilter中会从session获取用户信息，并执行后续filter链，但是在UsernamePasswordAuthenticationToken会跳过账号密码校验，直接执行下一步，后续认证流程和之前一样，最后用户信息保存在SecurityContextHolder中，并且再次存入session(即更新操作)
 ## 3.3 新建工程  
 ### 3.3.1 软件环境  
 + springboot: 2.7.17  
@@ -123,5 +125,38 @@ if(主体.hasPermission("查询工资权限标识")) {
 2. 创建配置文件SecurityConfig  
 3. 创建获取用户信息接口实现类LoginUserDetailsService(该类也可在SecurityConfig中通过@bean注解注册到容器中)  
 4. 创建用户、角色、权限实体类  
-5. 创建用户接口及实现类UserService、UserServiceImpl
+5. 创建用户接口及实现类UserService、UserServiceImpl  
+## 3.4 AuthticationProvider  
++ 这是一个接口，其中有`authticate()`和`support()`两个方法  
++ 由流程图可知实际的认证实现过程由provider完成
++ 认证的方式有很多种，在manager中维护着一个List<AuthenticationProvider>列表  
++ manager会根据`support()`方法判断调用哪种provider实现类，不同实现类支持的认证方式不同  
++ 判断依据是不同认证方式传入provider的参数类型不同，如账号密码认证传入的类型为UsernamePasswordAuthenticationToken
++ 其中账号密码认证的实现类是DaoAuthenticationProvider，可以看到它基类中的`support()`方法表明了支持传入参数类型为UsernamePasswordAuthenticationToken  
++ 我们也可根据需求自定义一个provider来支持特定的认证方式  
+## 3.4 授权流程  
+![img_14.png](img_14.png)  
++ 在config文件中通过`http.authorizeRequests()`开启授权保护，`http.authenticated()`开启认证保护  
++ 由springsecurity过滤链图可知，在访问资源前，还需要经过`FilterSecurityIntereptor`  
+### 3.4.1 AccessDecisionManager  
++ 授权决策实际由AccessDecisionManager执行  
++ 采用投票的方式来决定请求是否能访问资源  
+![img_15.png](img_15.png)  
++ 由上图可知AccessDecisionManager包含了一系列AccessDecisionVoter来投票，最终根据投票结果做出决策  
+  + springboot内置了AuthenticatedVoter、RoleVoter、WebExpressionVoter，感兴趣可自行学习  
++ springboot内置了三个AccessDecisionManager实现类：AffirmativeBased、ConsensusBased、UnanimousBased  
++ AffirmativeBased(默认)：
+  + 只要有AccessDecisionVoter的投票为ACCESS_GRANTED则同意访问  
+  + 全部弃权也通过  
+  + 若没有一个赞成，但是有反对票，则抛出AccessDeniedException  
++ ConsensusBased：  
+  + 赞成票多于反对票则同意访问  
+  + 反对票多余赞成票抛AccessDeniedException  
+  + 若赞成票与反对票相同且不为0，且属性`allowIfEqualGrantedDeniedDecisions`为true，则同意访问，否则抛AccessDeniedException，`allowIfEqualGrantedDeniedDecisions`默认为ture  
+  + 若都是弃权，则根据`allowIfAllAbstainDecisions`值而定，若为true则同意访问，否则抛AccessDeniedException，`allowIfAllAbstainDecisions`默认为false  
++ UnanimousBased(上面两个是一次性把Collection<ConfigAttribute>传入Voter，而这个是一次传一个ConfigAttribute)：  
+  + 受保护对象都某一个ConfigAttribute被任意AccessDecisionVoter投了反对票，则抛出AccessDeniedException  
+  + 如果没有反对票，但是有赞成票，则通过  
+  + 若全弃权，则根据`allowIfAllAbstainDecisions`而定，true通过，false抛AccessDeniedException
+
 
