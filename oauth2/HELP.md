@@ -134,7 +134,7 @@ if(主体.hasPermission("查询工资权限标识")) {
 + 判断依据是不同认证方式传入provider的参数类型不同，如账号密码认证传入的类型为UsernamePasswordAuthenticationToken
 + 其中账号密码认证的实现类是DaoAuthenticationProvider，可以看到它基类中的`support()`方法表明了支持传入参数类型为UsernamePasswordAuthenticationToken  
 + 我们也可根据需求自定义一个provider来支持特定的认证方式  
-## 3.4 授权流程  
+## 3.4 授权流程   
 ![img_14.png](img_14.png)  
 + 在config文件中通过`http.authorizeRequests()`开启授权保护，`http.authenticated()`开启认证保护  
 + 由springsecurity过滤链图可知，在访问资源前，还需要经过`FilterSecurityIntereptor`  
@@ -157,6 +157,31 @@ if(主体.hasPermission("查询工资权限标识")) {
 + UnanimousBased(上面两个是一次性把Collection<ConfigAttribute>传入Voter，而这个是一次传一个ConfigAttribute)：  
   + 受保护对象都某一个ConfigAttribute被任意AccessDecisionVoter投了反对票，则抛出AccessDeniedException  
   + 如果没有反对票，但是有赞成票，则通过  
-  + 若全弃权，则根据`allowIfAllAbstainDecisions`而定，true通过，false抛AccessDeniedException
+  + 若全弃权，则根据`allowIfAllAbstainDecisions`而定，true通过，false抛AccessDeniedException  
+## 3.5 授权方式  
+### 3.5.1 web授权  
++ 即在securityConfig中配置权限，如`.antMatchers("/test").hasAuthority("p1")`  
+### 3.5.2 方法授权  
+#### 3.5.2.1 @Secued
++ 启用方式：  
+  + 在任何`@Configuration`注解标记的类中使用`@EnableGlobalMethodSecurity(securedEnabled = true)`注解  
+  + 然后在需要鉴权的方法(类或者接口)上使用`@Secured`注解，该注解局限性是只有SpringSecurity提供的一些属性  
+    + `@Secured("IS_AUTHENTICATED_ANONYMOUSLY")`，无需认证即可访问
+      + 底层使用的是`WebExpressionVoter`  
+    + `@Secured("ROLE_TELLER")` ，具备"TELLER"角色才可访问  
+      + 底层使用的是`RoleVoter`  
+    + 以上属性会被传递给`AccessDecisionManager`以作决策  
+#### 3.5.2.2 @PreAuthorize  
++ 启用方式:  
+  + 同@Secued，加上`@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)`  
+    + `@PreAuthorize(isAnonymous())`，可匿名访问  
+    + `@PreAuthorize("hasAuthority('p_transfer') and hasAuthority('p_read_accout'))`，需同时拥有"p_transfer"和"p_read_accout"才可访问  
+      + `hasAuthority('p1')`可自定义权限字段名  
+      + `hasAnyAuthority('p1', 'p2')` 拥有'p1'或'p2'权限可访问   
+    +  底层使用`WebExpressionVoter`  
+#### 3.5.2.3 @PostAuthorize  
++ 与`@PreAuthorize`使用方式相同  
++ 不同的是，`@PreAuthorize`在方法执行前鉴权，验证结果为true才会执行方法  
++ 而`@PostAuthorize`在方法执行后鉴权，验证结果为true才会返回执行结果  
 
 
