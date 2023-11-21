@@ -80,5 +80,11 @@
   + **资源服务(Resource Server)：** 应包含保护资源，拦截非法请求等功能，对请求中对token进行解析鉴权等  
     + 可通过下面过滤器实现资源服务：  
     + **OAuth2AuthenticationProcessingFilter**用来解析鉴权token  
-    + 
+
+# 6. 搭建工程  
+1. 创建maven项目  
+2. 配置pom.xml文件
+3. 创建相关文件夹
+4. 创建启动类
+5. 创建配置文件applcation.yml
 
