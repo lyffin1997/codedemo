@@ -126,7 +126,41 @@
 + 然后用postman发送post请求(附带刚刚获取的code)获取token：http://localhost:53020/uaa/oauth/token  
 ![获取token](./picture/img_11.png)  
 + 成功获取token如下图  
-![token](./picture/img_12.png)
+![token](./picture/img_12.png)  
+### 6.2.2 授权码模式总结
++ 这种模式是四种模式中最安全的模式
++ 一般用于客户端是web服务器应用或者第三方的原生app应用调用资源服务时
++ 因为该方式token不会经过浏览器或者app，减少令牌泄漏风险
+  + 申请code请求认证通过后，授权服务会直接往客户端的后端服务器返回code
+  + 拿到code再次申请token也是在客户端的后端服务器进行
+  + 因此整个过程token相关信息不会暴露在浏览器或app上  
+### 6.2.3 简化模式测试  
++ 简化模式流程图  
+![简化模式](./picture/img_13.png)  
++ 浏览器发送请求：http://localhost:53020/oauth/authorize?client_id=c1&response_type=token&scope=all&redirect_uri=https://www.baidu.com  
++ 与授权码模式相比，它发送code请求并认证成功后会直接返回token，不需要在发送token请求  
+![token返回结果](./picture/img_14.png)  
++ 返回的`access_token`以hash的形式存在在重新定向的uri的fragment中
+  + `fragment`主要用来标识URI所标识资源里的某个资源，在uri的末尾通过'#'作为fragment的开头
+  + 其中'#'不属于`fragment`的值
+  + js可通过某些方法获取fragment的值
++ 简化模式一般用于没有服务器端的第三方但页面应用  
+### 6.2.4 密码模式测试  
++ 密码模式流程图  
+![密码模式](./picture/img_15.png)  
++ postman发送请求：http://localhost:53020/oauth/token?client_id=c1&client_secret=secret&grant_type=password&username=D46033&password=1234  
+![token请求](./picture/img_16.png)  
++ 缺点：该模式会把账号密码等用户信息泄漏给客户端(不是指浏览器，指后端)
+  + 因此密码模式一般用于自己开发测试  
+### 6.2.6 客户端模式测试
++ 客户端模式流程图  
+![客户端模式](./picture/img_17.png)  
++ postman发送请求：http://localhost:53020/oauth/token  
+![token请求](./picture/img_18.png)  
++ 这是最方便但最不安全但模式  
+  + 要求授权服务对客户端完全信任
+  + 且客户端本身足够安全
+  + 例如：合作第三方对接，用于拉取一组用户信息
 
 
 
