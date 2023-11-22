@@ -1,6 +1,7 @@
-package com.lyffin.demo.oauth2.service;
+package com.lyffin.security.distributed.uaa.service;
 
-import com.lyffin.demo.oauth2.pojo.User;
+
+import com.lyffin.security.distributed.uaa.model.User;
 
 public interface UserService {
     public User findUserByUserName(String username);

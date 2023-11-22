@@ -86,5 +86,47 @@
 2. 配置pom.xml文件
 3. 创建相关文件夹
 4. 创建启动类
-5. 创建配置文件applcation.yml
+5. 创建配置文件applcation.yml  
+
+## 6.1 授权服务配置  
++ 在任意配置类添加@EnableAuthorizationServer注解  
+![授权配置类](./picture/img_6.png)  
++ 在AuthorizationServer类中进行相关配置，一共三个`configure()`方法
+  + 客户端管理，参考代码中注释信息
+  + 管理令牌
+    + 通过`AuthorizationServerTokenServices`接口进行令牌管理
+      + 可以自己实现`AuthorizationServerTokenServices`接口，需要继承`DefaultTokenServices`这个类
+    + 但是持久化令牌是通过另一个接口`TokenStore`来实现的
+      + `TokenStore`有一个默认实现`InMemoryTokenStore`，即存储在内存中
+      + 除此之外还有一些预定义实现：
+        + `JdbcTokenStore`：基于数据库存储令牌，可以在不同服务器间共享令牌信息，使用该方式时需要注意引入`spring-jdbc`相关依赖
+        + `JwtTokenStore`：该方式服务端不存储令牌(可去了解什么是jwt)，它可以把令牌相关数据进行编码，但是它有两个缺点：
+          + 想要撤销一个已经授权的令牌非常困难，所以通常用来处理生命周期较短的令牌或者撤销刷新令牌
+          + 如果加入了较多用户凭证信息，令牌的占用空间会较大
+    + 单独建立生成令牌的配置文件类`TokenConfig`
+    + 在`AuthorizationServer`中配置令牌管理
+  + 配置令牌访问端点及授权类型相关设置
+    + `AuthorizationServerEndpointsConfigurer`的实例可以完成令牌服务及令牌访问端点的配置
+      + 配置授权类型'Grant Types'
+      + 在`AuthorizationServer`中配置令牌
+  + 配置令牌约束
+    + 在`AuthorizationServer`中配置令牌约束  
+
+## 6.2 授权服务测试  
+### 6.2.1 授权码模式测试  
+![交互图](./picture/img_7.png)  
++ 浏览器访问: http://localhost:53020/oauth/authorize?client_id=c1&response_type=code&scope=all&redirect_uri=https://www.baidu.com  
++ 跳转到授权页面  
+![授权页面](./picture/img_8.png)  
++ 输入userDetailService中定义的账号密码  
+![手动确认](./picture/img_9.png)  
++ 若认证成功，需手动选择approve授权
++ 之后路径中会返回code码  
+![code码](./picture/img_10.png)  
++ 然后用postman发送post请求(附带刚刚获取的code)获取token：http://localhost:53020/uaa/oauth/token  
+![获取token](./picture/img_11.png)  
++ 成功获取token如下图  
+![token](./picture/img_12.png)
+
+
 

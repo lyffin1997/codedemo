@@ -1,23 +1,48 @@
-package com.lyffin.demo.oauth2.pojo;
+package com.lyffin.security.distributed.uaa.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class User implements Serializable {
-    private Integer id; //用户id
-    private String username;    //用户账号
-    private String password;    //用户密码
-    private String addUser;     //添加用户人员账号
-    private String editUser;  //编辑用户人员账号
-    private Date addDate;   //添加账号时间
-    private Date updateDate;    //更新账号时间
-    private Role role;  //用户角色
+public class User implements UserDetails {
+    private String username;
+    private String password;
+    private String perms;
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Stream.of(perms.split(",")).map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }

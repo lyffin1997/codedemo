@@ -1,4 +1,4 @@
-package com.lyffin.demo.oauth2.pojo;
+package com.lyffin.security.distributed.uaa.model;
 
 
 import lombok.AllArgsConstructor;
