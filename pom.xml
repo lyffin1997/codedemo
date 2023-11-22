@@ -14,6 +14,8 @@
         <module>distributed-security-order</module>
         <module>jwt-order</module>
         <module>jwt-uaa</module>
+        <module>in-memory-order</module>
+        <module>in-memory-uaa</module>
     </modules>
 
     <properties>
