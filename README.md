@@ -160,7 +160,22 @@
 + 这是最方便但最不安全但模式  
   + 要求授权服务对客户端完全信任
   + 且客户端本身足够安全
-  + 例如：合作第三方对接，用于拉取一组用户信息
+  + 例如：合作第三方对接，用于拉取一组用户信息  
+
+## 6.3 资源服务配置
++ 创建`ResourceServerConfig`文件并配置
+  + `@EnableResourceServer`声明为资源服务
+  + 配置其他  
+  + 配置tokenServices
++ 创建`SecurityConfig`并配置
+  + 不配置的话`@PreAuthorize()`不生效
++ 使用postman测试token：http://localhost:53020/oauth/check_token  
+![check_token](./picture/img_19.png)  
++ 访问资源测试  
+  + 在header中添加参数`Authorization`
+  + 值为`Bearer token`  
+![访问资源](./picture/img_20.png)
+   
 
 
 

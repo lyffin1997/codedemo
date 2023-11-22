@@ -4,10 +4,10 @@ server:
 spring:
   application:
     name: order-service
-  cloud:
-    nacos:
-      discovery:
-        server-addr: localhost:8848
+#  cloud:
+#    nacos:
+#      discovery:
+#        server-addr: localhost:8848
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -15,10 +15,10 @@ spring:
     username: root
     password: 123456
 
-mybatis:
-  mapper-locations: classpath:mybatis/mapper/*.xml
-  type-aliases-package: com.lyffin.security.distributed.uaa.model
-  config-location: classpath:mybatis/mybatis-config.xml
+#mybatis:
+#  mapper-locations: classpath:mybatis/mapper/*.xml
+#  type-aliases-package: com.lyffin.security.distributed.uaa.model
+#  config-location: classpath:mybatis/mybatis-config.xml
 
 management:
   endpoints:

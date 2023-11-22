@@ -1,8 +1,8 @@
 package com.lyffin.security.distributed.uaa.service;
 
 
-import com.lyffin.security.distributed.uaa.model.User;
+import com.lyffin.security.distributed.uaa.model.MyUserDetail;
 
 public interface UserService {
-    public User findUserByUserName(String username);
+    public MyUserDetail findUserByUserName(String username);
 }
