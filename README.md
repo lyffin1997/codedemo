@@ -174,8 +174,81 @@
 + 访问资源测试  
   + 在header中添加参数`Authorization`
   + 值为`Bearer token`  
-![访问资源](./picture/img_20.png)
-   
+![访问资源](./picture/img_20.png)  
+
+# 7. jwt令牌  
++ 分布式系统中资源服务需要使用`RemoteTokenServices`请求授权服务验证token，访问量大时可能会影响系统性能  
+  + 解决这一问题可以用jwt令牌
+  + 用户认证后得到一个jwt令牌，令牌中包含用户相关信息  
+  + 客户端携带jwt令牌访问资源服务  
+  + 资源服务根据事先约定大算法自行完成令牌校验  
+  + 这样就不用每次请求认证服务了  
++ jwt(JSON Web Token)是一种开放的行业标准  
+  + 通信双方传递json对象
+  + 传递的信息经过数字签名可以被信任和验证
+  + 可以使用HMAC算法或RSA算法来签名，防止被篡改  
++ jwt令牌优点
+  + 基于json，方便解析  
+  + 可在令牌中自定义丰富的内容，已扩展
+  + 通过非对称加密算法及数字签名技术，jwt防止被篡改，安全性高
+  + 资源服务使用jwt可不依赖认证服务完成授权
++ jwt令牌缺点
+  + 令牌较长，占存储空间比较大
+## 7.1 jwt结构  
++ jwt令牌由三部分组成：
++ **Header:**
+  + 包含令牌类型及使用的哈希算法(HMAC、SHA256、RSA)
+  + 将下面内容使用Base64Url编码，得到Header部分
+  + 其中HS256表示HMAC-SHA256算法
+```json
+{
+    "alg": "HS256",
+    "typ": "JWT"
+}
+```
++ **Payload:**
+  + 存放有效信息，可存放jwt提供的现成字段，如：
+    + iss(签发者)、exp(过期时间戳)、sub(面向的用户)
+  + 也可自定义字段(不建议存放敏感信息，因为该部分可解码还原原始内容)  
+  + 将下面内容使用Base64Url编码，得到Payload部分  
+```json
+{
+  "sub": "1234567",
+  "name": "lf",
+  "admin": true
+}
+```
++ **Signature:**
+  + 签名，防止令牌被篡改
+  + 使用Base64Url将前两部分的内容(header和payload为原始json)再编码
+  + 编码后使用`.`连接组成字符串
+  + 最后使用header中的算法进行签名
+  + 内容如下：  
+```java
+HMACSHA256(
+  base64UrlEncode(header) + "." +
+  base64UrlEncode(payload),
+  secret)
+```
++ 最终组成：`base64UrlEncodedHeader + "." + base64UrlEncodedPayload + "." + base64UrlEncodedSignature`
++ **注意:**
+  + Header 和 Payload 只是简单的利用 Base64 编码，是可逆的，因此不要在 Payload 中存储敏感信息
+  + Signature 使用的是不可逆的加密算法，无法解码出原文，它的作用是校验 Token 有没有被篡改。该算法需要我们自己指定一个密钥，这个密钥存储在服务端，不能泄露
+  + 尽量避免在 JWT 中存储大量信息，因为一些服务器接收的 HTTP 请求头最大不超过 8KB  
+
+## 7.2 jwt令牌测试
++ 修改`TokenConfig`配置
++ 修改`AuthorizationServer`配置
++ 使用postman测试：http://localhost:53020/oauth/token  
+![jwt_token](./picture/img_21.png)  
++ 可见，token已经变成jwt_token  
+## 7.3 资源服务校验jwt令牌  
++ 新增`TokenConfig`
++ 修改`ResourceServerConfig`
++ postman测试：http://localhost:53021/r1  
+![资源服务测试](./picture/img_22.png)  
++ 
+
 
 
 
