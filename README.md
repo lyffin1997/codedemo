@@ -247,7 +247,10 @@ HMACSHA256(
 + 修改`ResourceServerConfig`
 + postman测试：http://localhost:53021/r1  
 ![资源服务测试](./picture/img_22.png)  
-+ 
+## 7.3 完善配置  
++ `AuthorizationServer`中
+  + 客户端配置现在还是在内存中，需要改为数据库
+  + 授权码存取模式还在内存，需要改为数据库
 
 
 

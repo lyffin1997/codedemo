@@ -16,6 +16,8 @@
         <module>jwt-uaa</module>
         <module>in-memory-order</module>
         <module>in-memory-uaa</module>
+        <module>in-db-uaa</module>
+        <module>In-db-order</module>
     </modules>
 
     <properties>
