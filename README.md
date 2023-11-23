@@ -250,7 +250,39 @@ HMACSHA256(
 ## 7.3 完善配置  
 + `AuthorizationServer`中
   + 客户端配置现在还是在内存中，需要改为数据库
-  + 授权码存取模式还在内存，需要改为数据库
+  + 授权码存取模式还在内存，需要改为数据库  
+# 8. 搭建分布式demo
+## 8.1 搭建gateway
++ 网关整合oauth2有两种思路
+  + 认证服务生成jwt令牌，所有请求统一在网关层验证，判断权限  
+  + 请求由各自资源服务处理，网关只做转发
+  + 本demo以第一种为例
++ **整体思路：** 把网关作为`oauth2.0`资源服务，实现接入客户端权限拦截、令牌解析、并转发当前登录用户信息给资源服务
+  + 这种情况，下游微服务就不需要关注令牌格式解析及`oauth2.0`相关机制了
++ **网关的主要工作：** 
+  + 作为`oauth2.0`资源服务器，实现接入方权限拦截
+  + 令牌解析并转发明文token给微服务
++ 微服务拿到token后干两件事：
+  + 用户授权拦截(查看当前用户是否有权访问该资源)
+  + 将用户信息存储进当前线程上下文(方便后续业务逻辑随时获取用户信息)  
+
+# 9. 总结
+## 9.1 问题总结  
++ 什么是认证、授权、会话
++ java servlet为支持http会话做了哪些事
++ 基于session机制的认证流程
++ 基于token机制的认证流程
++ spring security
+  + 工作原理
+  + 结构总览
+  + 认证、授权流程
+  + 认证、授权过程涉及组件及其作用，如何自定义这些组件
++ oauth2.0四种模式及其大体流程
++ spring cloud security oauth2包含哪些组件及其作用
++ 分布式系统认证需要解决哪些问题  
+## 9.2 参考资料
++ 视频：https://www.bilibili.com/video/BV1VE411h7aL/?p=49&spm_id_from=pageDriver&vd_source=422073808a5a89732b3d9bfcc1703ccc
++ demo：https://github.com/baixiaoyiren/Coud-SpringSecurity-Oauth2/tree/master/10-securityoauth2
 
 
 
