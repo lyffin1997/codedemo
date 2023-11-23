@@ -16,8 +16,6 @@
         <module>in-memory-uaa</module>
         <module>in-db-uaa</module>
         <module>In-db-order</module>
-        <module>distributed-oauth2-common</module>
-        <module>distributed-oauth2-gateway</module>
     </modules>
 
     <properties>
