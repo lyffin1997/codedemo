@@ -10,15 +10,14 @@
     <!--打包方式-->
     <packaging>pom</packaging>
     <modules>
-        <module>distributed-security-uaa</module>
-        <module>distributed-security-order</module>
         <module>jwt-order</module>
         <module>jwt-uaa</module>
         <module>in-memory-order</module>
         <module>in-memory-uaa</module>
         <module>in-db-uaa</module>
         <module>In-db-order</module>
-        <module>distributed-security-gateway</module>
+        <module>distributed-oauth2-common</module>
+        <module>distributed-oauth2-gateway</module>
     </modules>
 
     <properties>

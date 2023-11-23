@@ -265,6 +265,10 @@ HMACSHA256(
 + 微服务拿到token后干两件事：
   + 用户授权拦截(查看当前用户是否有权访问该资源)
   + 将用户信息存储进当前线程上下文(方便后续业务逻辑随时获取用户信息)  
+## 8.2 小结
++ **由于该教程的分布式授权认证方案所用组件太旧，没有编码价值，因此本工程不再搭建环境**
++ 分布式教程视频：https://www.bilibili.com/video/BV1VE411h7aL/?spm_id_from=333.337.search-card.all.click&vd_source=422073808a5a89732b3d9bfcc1703ccc  
++ **个人建议：** 分布式系统统一认证授权方案建议直接看项目实战中的应用，本教程P42之前已将统一认证授权的大部分内容介绍完毕
 
 # 9. 总结
 ## 9.1 问题总结  
@@ -282,7 +286,7 @@ HMACSHA256(
 + 分布式系统认证需要解决哪些问题  
 ## 9.2 参考资料
 + 视频：https://www.bilibili.com/video/BV1VE411h7aL/?p=49&spm_id_from=pageDriver&vd_source=422073808a5a89732b3d9bfcc1703ccc
-+ demo：https://github.com/baixiaoyiren/Coud-SpringSecurity-Oauth2/tree/master/10-securityoauth2
++ 分布式系统认证授权demo：https://github.com/baixiaoyiren/Coud-SpringSecurity-Oauth2/tree/master/10-securityoauth2
 
 
 
